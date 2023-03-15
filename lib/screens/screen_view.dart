@@ -1,9 +1,8 @@
 import 'dart:io';
-
 import 'package:camera_app/screens/screen_gallery.dart';
 import 'package:camera_app/screens/screen_home.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/adapters.dart';
+
 
 class ViewImage extends StatelessWidget {
   ViewImage({super.key, required this.imgIndex});
@@ -18,9 +17,7 @@ class ViewImage extends StatelessWidget {
             IconButton(
                 onPressed: () {
                   delete(imgIndex);
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => const Gallery(),
-                  ));
+                  Navigator.of(context).pop();
                 },
                 icon: const Icon(Icons.delete))
           ],
@@ -31,10 +28,4 @@ class ViewImage extends StatelessWidget {
           ),
         ));
   }
-}
-
-delete(int index) async {
-  final imageDB = await Hive.openBox('image');
-  imageDB.deleteAt(index);
-  await getAllImages();
 }

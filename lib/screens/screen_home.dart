@@ -1,4 +1,4 @@
-
+import 'dart:developer';
 
 import 'package:camera_app/screens/screen_gallery.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (image != null) {
       setState(() {
         imagepath = (image!.path);
-        add(image: image);
+        add();
       });
     } else {
       return null;
@@ -62,15 +62,3 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-add({required image}) async {
-  final imageDB = await Hive.openBox('image');
-  imageDB.add(imagepath);
-  getAllImages();
-}
-
-getAllImages() async {
-  galleryNotifier.value.clear();
-  final imageDB = await Hive.openBox('image');
-  galleryNotifier.value.addAll(imageDB.values);
-  ValueNotifier(galleryNotifier);
-}

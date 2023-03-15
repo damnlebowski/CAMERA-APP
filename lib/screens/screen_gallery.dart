@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:camera_app/screens/screen_home.dart';
 import 'package:camera_app/screens/screen_view.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
 
 class Gallery extends StatelessWidget {
   const Gallery({super.key});
@@ -23,7 +24,7 @@ class Gallery extends StatelessWidget {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
-                  Navigator.pushReplacement(context, MaterialPageRoute(
+                  Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
                       return ViewImage(
                         imgIndex: index,
@@ -45,4 +46,23 @@ class Gallery extends StatelessWidget {
       ),
     );
   }
+}
+
+add() async {
+  final imageDB = await Hive.openBox('image');
+  imageDB.add(imagepath);
+  await getAllImages();
+}
+
+delete(int index) async {
+  final imageDB = await Hive.openBox('image');
+  imageDB.deleteAt(index);
+  await getAllImages();
+}
+
+getAllImages() async {
+  final imageDB = await Hive.openBox('image');
+  galleryNotifier.value.clear();
+  galleryNotifier.value.addAll(imageDB.values);
+  galleryNotifier.notifyListeners();
 }

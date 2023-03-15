@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 
 void main(List<String> args) {
+  WidgetsFlutterBinding.ensureInitialized();
   Hive.initFlutter();
   runApp(const MyApp());
 }
